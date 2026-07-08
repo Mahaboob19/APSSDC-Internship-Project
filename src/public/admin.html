@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlaceSync — Admin</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>PlaceSync — Admin</h1>
+    <nav>
+      <a href="/index.html">Student</a>
+      <a href="/admin.html">Admin</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2 id="formTitle">Add Company</h2>
+      <div class="form-box">
+        <input type="hidden" id="companyId" />
+        <label for="name">Company Name</label>
+        <input type="text" id="name" required />
+
+        <label for="role">Role</label>
+        <input type="text" id="role" required />
+
+        <label for="package">Package</label>
+        <input type="text" id="package" placeholder="e.g. 6 LPA" />
+
+        <label for="location">Location</label>
+        <input type="text" id="location" />
+
+        <label for="driveDate">Drive Date</label>
+        <input type="date" id="driveDate" />
+
+        <label for="description">Description</label>
+        <textarea id="description" rows="3"></textarea>
+
+        <button id="saveBtn">Save Company</button>
+        <button class="secondary" id="resetBtn" type="button">Clear</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Existing Companies</h2>
+      <div id="adminCompanyList">Loading companies...</div>
+    </section>
+  </main>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

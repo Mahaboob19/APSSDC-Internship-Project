@@ -1,0 +1,36 @@
+{
+  "companies": [
+    {
+      "id": "c1",
+      "name": "TechNova Solutions",
+      "role": "Software Engineer",
+      "package": "8 LPA",
+      "location": "Hyderabad",
+      "description": "TechNova builds cloud-native SaaS products for the fintech industry.",
+      "driveDate": "2026-08-10"
+    },
+    {
+      "id": "c2",
+      "name": "CloudEdge Systems",
+      "role": "DevOps Engineer Intern",
+      "package": "6 LPA",
+      "location": "Bengaluru",
+      "description": "CloudEdge specializes in AWS-based infrastructure automation for startups.",
+      "driveDate": "2026-08-15"
+    }
+  ],
+  "applications": [
+    {
+      "id": "58790b9e-c38e-4a1c-b430-0da4864a984a",
+      "companyId": "c1",
+      "companyName": "TechNova Solutions",
+      "studentName": "Netuluri Sphurthi",
+      "studentEmail": "netuluri@gmail.com",
+      "status": "Applied",
+      "appliedAt": "2026-07-08T17:32:35.670Z"
+    }
+  ],
+  "meta": {
+    "nextApplicationSerial": 1
+  }
+}
