@@ -1,4 +1,4 @@
-const API_BASE = window.location.origin.includes('localhost') ? 'http://localhost:3000' : '';
+const API_BASE = window.location.origin.includes('localhost') ? 'http://localhost:3000' : 'http://54.174.104.242:3000';
 
 const adminCompanyListEl = document.getElementById('adminCompanyList');
 const formTitle = document.getElementById('formTitle');
