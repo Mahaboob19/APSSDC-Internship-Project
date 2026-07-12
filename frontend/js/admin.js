@@ -1,3 +1,5 @@
+const API_BASE = window.location.origin.includes('localhost') ? 'http://localhost:3000' : '';
+
 const adminCompanyListEl = document.getElementById('adminCompanyList');
 const formTitle = document.getElementById('formTitle');
 
@@ -11,7 +13,7 @@ const descriptionEl = document.getElementById('description');
 
 async function loadCompanies() {
   try {
-    const res = await fetch('/api/companies');
+    const res = await fetch(`${API_BASE}/api/companies`);
     const json = await res.json();
 
     if (!json.success || json.data.length === 0) {
@@ -98,7 +100,7 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
   const isEdit = Boolean(id);
 
   try {
-    const res = await fetch(isEdit ? `/api/companies/${id}` : '/api/companies', {
+    const res = await fetch(isEdit ? `${API_BASE}/api/companies/${id}` : `${API_BASE}/api/companies`, {
       method: isEdit ? 'PUT' : 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -121,7 +123,7 @@ async function deleteCompany(id) {
   if (!confirm('Delete this company?')) return;
 
   try {
-    const res = await fetch(`/api/companies/${id}`, { method: 'DELETE' });
+    const res = await fetch(`${API_BASE}/api/companies/${id}`, { method: 'DELETE' });
     const json = await res.json();
 
     if (!json.success) {

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlaceSync — Student Portal</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>PlaceSync</h1>
+    <nav>
+      <a href="/index.html">Student</a>
+      <a href="/admin.html">Admin</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <div class="section-header">
+        <h2>Placement Drives</h2>
+        <button id="openTrackBtn" class="secondary">Track Applications</button>
+      </div>
+      <div id="companyList">Loading companies...</div>
+    </section>
+  </main>
+
+  <!-- Modal overlay for tracking applications -->
+  <div id="trackModal" class="modal-overlay" style="display:none;">
+    <div id="trackBox" class="modal-content">
+      <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; color: #1e3a5f;">Track Applications</h3>
+      
+      <div class="form-group">
+        <label for="trackEmail">Enter your email</label>
+        <form class="inline" id="trackForm">
+          <input type="email" id="trackEmail" placeholder="you@example.com" required style="margin-bottom: 0;" />
+          <button type="submit" style="white-space: nowrap;">Track</button>
+        </form>
+      </div>
+      
+      <div id="applicationList" style="margin-top: 20px; max-height: 250px; overflow-y: auto;"></div>
+      
+      <div class="modal-actions" style="margin-top: 20px;">
+        <button class="secondary" id="closeTrackBtn" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal overlay for application -->
+  <div id="applyModal" class="modal-overlay" style="display:none;">
+    <div id="applyBox" class="modal-content">
+      <h3 id="applyCompanyName" style="margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; color: #1e3a5f;"></h3>
+      <input type="hidden" id="applyCompanyId" />
+      
+      <div class="form-group">
+        <label for="applyName">Your Name</label>
+        <input type="text" id="applyName" placeholder="Your full name" required />
+      </div>
+      
+      <div class="form-group">
+        <label for="applyEmail">Your Email</label>
+        <input type="email" id="applyEmail" placeholder="your.email@example.com" required />
+      </div>
+      
+      <div class="modal-actions">
+        <button class="secondary" id="cancelApplyBtn" type="button">Cancel</button>
+        <button id="submitApplyBtn" type="button">Submit Application</button>
+      </div>
+      <p id="applyMessage" style="margin-top: 15px; font-weight: 500; text-align: center;"></p>
+    </div>
+  </div>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

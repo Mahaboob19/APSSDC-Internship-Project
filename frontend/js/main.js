@@ -1,16 +1,23 @@
+const API_BASE = window.location.origin.includes('localhost') ? 'http://localhost:3000' : '';
+
 const companyListEl = document.getElementById('companyList');
 const applicationListEl = document.getElementById('applicationList');
 const trackForm = document.getElementById('trackForm');
 
+const applyModal = document.getElementById('applyModal');
 const applyBox = document.getElementById('applyBox');
 const applyCompanyName = document.getElementById('applyCompanyName');
 const applyCompanyId = document.getElementById('applyCompanyId');
 const applyMessage = document.getElementById('applyMessage');
 
+const trackModal = document.getElementById('trackModal');
+const openTrackBtn = document.getElementById('openTrackBtn');
+const closeTrackBtn = document.getElementById('closeTrackBtn');
+
 // --- Load and render companies ---
 async function loadCompanies() {
   try {
-    const res = await fetch('/api/companies');
+    const res = await fetch(`${API_BASE}/api/companies`);
     const json = await res.json();
 
     if (!json.success || json.data.length === 0) {
@@ -55,12 +62,27 @@ function showApplyBox(id, name) {
   applyCompanyId.value = id;
   applyCompanyName.textContent = `Apply to ${name}`;
   applyMessage.textContent = '';
-  applyBox.style.display = 'block';
-  applyBox.scrollIntoView({ behavior: 'smooth' });
+  applyModal.style.display = 'flex';
+  setTimeout(() => {
+    applyModal.classList.add('active');
+  }, 10);
 }
 
-document.getElementById('cancelApplyBtn').addEventListener('click', () => {
-  applyBox.style.display = 'none';
+function hideApplyBox() {
+  applyModal.classList.remove('active');
+  setTimeout(() => {
+    applyModal.style.display = 'none';
+    document.getElementById('applyName').value = '';
+    document.getElementById('applyEmail').value = '';
+    applyMessage.textContent = '';
+  }, 300);
+}
+
+document.getElementById('cancelApplyBtn').addEventListener('click', hideApplyBox);
+applyModal.addEventListener('click', (e) => {
+  if (e.target === applyModal) {
+    hideApplyBox();
+  }
 });
 
 document.getElementById('submitApplyBtn').addEventListener('click', async () => {
@@ -69,12 +91,13 @@ document.getElementById('submitApplyBtn').addEventListener('click', async () => 
   const studentEmail = document.getElementById('applyEmail').value.trim();
 
   if (!studentName || !studentEmail) {
+    applyMessage.style.color = '#b91c1c';
     applyMessage.textContent = 'Please fill in your name and email.';
     return;
   }
 
   try {
-    const res = await fetch('/api/applications', {
+    const res = await fetch(`${API_BASE}/api/applications`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ companyId, studentName, studentEmail }),
@@ -82,43 +105,74 @@ document.getElementById('submitApplyBtn').addEventListener('click', async () => 
     const json = await res.json();
 
     if (!json.success) {
+      applyMessage.style.color = '#b91c1c';
       applyMessage.textContent = json.error || 'Something went wrong.';
       return;
     }
 
+    applyMessage.style.color = '#15803d';
     applyMessage.textContent = 'Application submitted successfully!';
+    setTimeout(() => {
+      hideApplyBox();
+    }, 1500);
   } catch (err) {
+    applyMessage.style.color = '#b91c1c';
     applyMessage.textContent = 'Failed to submit application.';
   }
 });
 
 // --- Track applications ---
+function showTrackModal() {
+  trackModal.style.display = 'flex';
+  setTimeout(() => {
+    trackModal.classList.add('active');
+  }, 10);
+}
+
+function hideTrackModal() {
+  trackModal.classList.remove('active');
+  setTimeout(() => {
+    trackModal.style.display = 'none';
+    document.getElementById('trackEmail').value = '';
+    applicationListEl.innerHTML = '';
+  }, 300);
+}
+
+openTrackBtn.addEventListener('click', showTrackModal);
+closeTrackBtn.addEventListener('click', hideTrackModal);
+
+trackModal.addEventListener('click', (e) => {
+  if (e.target === trackModal) {
+    hideTrackModal();
+  }
+});
+
 trackForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = document.getElementById('trackEmail').value.trim();
 
   try {
-    const res = await fetch(`/api/applications?email=${encodeURIComponent(email)}`);
+    const res = await fetch(`${API_BASE}/api/applications?email=${encodeURIComponent(email)}`);
     const json = await res.json();
 
     if (!json.success || json.data.length === 0) {
-      applicationListEl.innerHTML = '<p>No applications found for this email.</p>';
+      applicationListEl.innerHTML = '<p style="text-align: center; margin-top: 15px;">No applications found for this email.</p>';
       return;
     }
 
     applicationListEl.innerHTML = json.data
       .map(
         (a) => `
-        <div class="card">
-          <h3>${a.companyName}</h3>
-          <p>Status: <strong class="status-${a.status.replace(/\s/g, '')}">${a.status}</strong></p>
-          <p>Applied at: ${new Date(a.appliedAt).toLocaleString()}</p>
+        <div class="card" style="margin-top: 12px; margin-bottom: 12px; padding: 12px;">
+          <h4 style="margin: 0 0 6px 0; color: #1e3a5f;">${a.companyName}</h4>
+          <p style="margin: 4px 0; font-size: 0.9rem;">Status: <strong class="status-${a.status.replace(/\s/g, '')}">${a.status}</strong></p>
+          <p style="margin: 4px 0; font-size: 0.8rem; color: #64748b;">Applied: ${new Date(a.appliedAt).toLocaleString()}</p>
         </div>
       `
       )
       .join('');
   } catch (err) {
-    applicationListEl.innerHTML = '<p>Failed to load applications.</p>';
+    applicationListEl.innerHTML = '<p style="text-align: center; color: #b91c1c; margin-top: 15px;">Failed to load applications.</p>';
   }
 });
 

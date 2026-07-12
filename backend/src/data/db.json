@@ -1,0 +1,81 @@
+{
+  "companies": [
+    {
+      "id": "c1",
+      "name": "TechNova Solutions",
+      "role": "Software Engineer",
+      "package": "8 LPA",
+      "location": "Hyderabad",
+      "description": "TechNova builds cloud-native SaaS products for the fintech industry.",
+      "driveDate": "2026-08-10"
+    },
+    {
+      "id": "c2",
+      "name": "CloudEdge Systems",
+      "role": "DevOps Engineer Intern",
+      "package": "6 LPA",
+      "location": "Bengaluru",
+      "description": "CloudEdge specializes in AWS-based infrastructure automation for startups.",
+      "driveDate": "2026-08-15"
+    },
+    {
+      "id": "3344a8a2-6e9d-4a6c-87b7-28b10faf3e75",
+      "name": "ZeroCode HR",
+      "role": "Implementation Analyst",
+      "package": "9 LPA",
+      "location": "Hyderabad",
+      "description": "The company is looking for skilled Analysts",
+      "driveDate": "2026-08-10"
+    }
+  ],
+  "applications": [
+    {
+      "id": "58790b9e-c38e-4a1c-b430-0da4864a984a",
+      "companyId": "c1",
+      "companyName": "TechNova Solutions",
+      "studentName": "Netuluri Sphurthi",
+      "studentEmail": "netuluri@gmail.com",
+      "status": "Applied",
+      "appliedAt": "2026-07-08T17:32:35.670Z"
+    },
+    {
+      "id": "c1cc85b5-bfc1-47cc-b71d-2f9561f0b9d6",
+      "companyId": "c1",
+      "companyName": "TechNova Solutions",
+      "studentName": "Student 1",
+      "studentEmail": "std1@gmail.com",
+      "status": "Applied",
+      "appliedAt": "2026-07-12T03:52:50.147Z"
+    },
+    {
+      "id": "9654d9ad-b320-4b2b-8d88-d2fedcddfd94",
+      "companyId": "c1",
+      "companyName": "TechNova Solutions",
+      "studentName": "Student 1",
+      "studentEmail": "std1@gmail.com",
+      "status": "Applied",
+      "appliedAt": "2026-07-12T03:52:57.467Z"
+    },
+    {
+      "id": "774a0de2-cb96-4632-a028-9df63243a54d",
+      "companyId": "c2",
+      "companyName": "CloudEdge Systems",
+      "studentName": "Student 1",
+      "studentEmail": "std1@gmail.com",
+      "status": "Applied",
+      "appliedAt": "2026-07-12T03:53:10.715Z"
+    },
+    {
+      "id": "6e8a2c9b-7d46-450f-9d71-9bc3e8602384",
+      "companyId": "c1",
+      "companyName": "TechNova Solutions",
+      "studentName": "Student 2",
+      "studentEmail": "std2@gmail.com",
+      "status": "Applied",
+      "appliedAt": "2026-07-12T03:56:48.456Z"
+    }
+  ],
+  "meta": {
+    "nextApplicationSerial": 1
+  }
+}

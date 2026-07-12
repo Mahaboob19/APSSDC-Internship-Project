@@ -3,9 +3,9 @@ const logger = require('../utils/logger');
 const { readDB, writeDB } = require('../data/dbClient');
 
 // GET /api/companies
-function getAllCompanies(req, res, next) {
+async function getAllCompanies(req, res, next) {
   try {
-    const db = readDB();
+    const db = await readDB();
     res.json({ success: true, data: db.companies });
   } catch (err) {
     next(err);
@@ -13,9 +13,9 @@ function getAllCompanies(req, res, next) {
 }
 
 // GET /api/companies/:id
-function getCompanyById(req, res, next) {
+async function getCompanyById(req, res, next) {
   try {
-    const db = readDB();
+    const db = await readDB();
     const company = db.companies.find((c) => c.id === req.params.id);
 
     if (!company) {
@@ -31,7 +31,7 @@ function getCompanyById(req, res, next) {
 }
 
 // POST /api/companies  (Admin)
-function createCompany(req, res, next) {
+async function createCompany(req, res, next) {
   try {
     const { name, role, package: pkg, location, description, driveDate } = req.body;
 
@@ -41,7 +41,7 @@ function createCompany(req, res, next) {
       throw err;
     }
 
-    const db = readDB();
+    const db = await readDB();
     const newCompany = {
       id: uuidv4(),
       name,
@@ -53,7 +53,7 @@ function createCompany(req, res, next) {
     };
 
     db.companies.push(newCompany);
-    writeDB(db);
+    await writeDB(db);
 
     logger.info('Company created', { id: newCompany.id, name: newCompany.name });
     res.status(201).json({ success: true, data: newCompany });
@@ -63,9 +63,9 @@ function createCompany(req, res, next) {
 }
 
 // PUT /api/companies/:id  (Admin)
-function updateCompany(req, res, next) {
+async function updateCompany(req, res, next) {
   try {
-    const db = readDB();
+    const db = await readDB();
     const index = db.companies.findIndex((c) => c.id === req.params.id);
 
     if (index === -1) {
@@ -75,7 +75,7 @@ function updateCompany(req, res, next) {
     }
 
     db.companies[index] = { ...db.companies[index], ...req.body, id: db.companies[index].id };
-    writeDB(db);
+    await writeDB(db);
 
     logger.info('Company updated', { id: req.params.id });
     res.json({ success: true, data: db.companies[index] });
@@ -85,9 +85,9 @@ function updateCompany(req, res, next) {
 }
 
 // DELETE /api/companies/:id  (Admin)
-function deleteCompany(req, res, next) {
+async function deleteCompany(req, res, next) {
   try {
-    const db = readDB();
+    const db = await readDB();
     const index = db.companies.findIndex((c) => c.id === req.params.id);
 
     if (index === -1) {
@@ -97,7 +97,7 @@ function deleteCompany(req, res, next) {
     }
 
     const removed = db.companies.splice(index, 1);
-    writeDB(db);
+    await writeDB(db);
 
     logger.info('Company deleted', { id: removed[0].id });
     res.json({ success: true, data: removed[0] });
@@ -113,3 +113,4 @@ module.exports = {
   updateCompany,
   deleteCompany,
 };
+

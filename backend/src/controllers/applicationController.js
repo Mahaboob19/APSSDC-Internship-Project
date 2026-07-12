@@ -3,7 +3,7 @@ const logger = require('../utils/logger');
 const { readDB, writeDB } = require('../data/dbClient');
 
 // POST /api/applications  (Student applies to a company)
-function applyToCompany(req, res, next) {
+async function applyToCompany(req, res, next) {
   try {
     const { companyId, studentName, studentEmail } = req.body;
 
@@ -13,7 +13,7 @@ function applyToCompany(req, res, next) {
       throw err;
     }
 
-    const db = readDB();
+    const db = await readDB();
     const company = db.companies.find((c) => c.id === companyId);
 
     if (!company) {
@@ -33,7 +33,7 @@ function applyToCompany(req, res, next) {
     };
 
     db.applications.push(newApplication);
-    writeDB(db);
+    await writeDB(db);
 
     logger.info('New application submitted', {
       applicationId: newApplication.id,
@@ -48,7 +48,7 @@ function applyToCompany(req, res, next) {
 }
 
 // GET /api/applications?email=student@example.com  (Student tracks their applications)
-function getApplicationsByEmail(req, res, next) {
+async function getApplicationsByEmail(req, res, next) {
   try {
     const { email } = req.query;
 
@@ -58,7 +58,7 @@ function getApplicationsByEmail(req, res, next) {
       throw err;
     }
 
-    const db = readDB();
+    const db = await readDB();
     const applications = db.applications.filter(
       (a) => a.studentEmail.toLowerCase() === email.toLowerCase()
     );
@@ -70,9 +70,9 @@ function getApplicationsByEmail(req, res, next) {
 }
 
 // GET /api/applications/all  (Admin: view all applications)
-function getAllApplications(req, res, next) {
+async function getAllApplications(req, res, next) {
   try {
-    const db = readDB();
+    const db = await readDB();
     res.json({ success: true, data: db.applications });
   } catch (err) {
     next(err);
@@ -84,3 +84,4 @@ module.exports = {
   getApplicationsByEmail,
   getAllApplications,
 };
+

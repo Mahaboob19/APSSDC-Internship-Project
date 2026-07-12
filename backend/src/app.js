@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const cors = require('cors');
 const path = require('path');
 
 const companyRoutes = require('./routes/companies');
@@ -14,12 +15,10 @@ const app = express();
 // X-Frame-Options, etc.) — baseline hardening for any public-facing Express app.
 app.use(helmet());
 
-// NOTE: cors() was intentionally removed. The frontend (public/) and the API
-// are served by this same Express app on the same origin, so cross-origin
-// requests are never needed. Leaving CORS enabled would only widen the
-// attack surface by letting any external website call this API from a
-// browser. If a separate frontend origin is ever introduced, CORS should
-// be re-added with an explicit allow-list, not a wildcard.
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5000',
+  credentials: true
+}));
 
 // Parses JSON request bodies (for POST/PUT). A size limit is set to reduce
 // the risk of oversized-payload abuse; this app's payloads (company/
@@ -32,9 +31,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// --- Static frontend ---
-// Serves everything in src/public (HTML/CSS/JS) as the website itself.
-app.use(express.static(path.join(__dirname, 'public')));
+// (Decoupled frontend is served on port 5000/S3)
 
 // --- Health check endpoint ---
 // Used by: deployment scripts (to confirm the app started successfully)
